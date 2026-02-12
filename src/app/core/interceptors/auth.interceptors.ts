@@ -1,19 +1,45 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { catchError, throwError } from 'rxjs';
+import { AuthService } from '../services/auth.service';
+import Swal from 'sweetalert2';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  // 1. Buscamos el token en la caja fuerte (localStorage)
   const token = localStorage.getItem('token');
+  const router = inject(Router);
+  const authService = inject(AuthService); // Necesitamos el servicio para limpiar Signals
 
-  // 2. Si existe, clonamos la petición y le pegamos el header
+  // 1. Si existe, clonamos la petición y le pegamos el header
   if (token) {
-    const cloned = req.clone({
+    req = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
       }
     });
-    return next(cloned);
   }
 
-  // 3. Si no hay token, mandamos la petición tal cual (el backend la rechazará si es privada)
-  return next(req);
+  // 2. Mandamos la petición y estamos atentos a posibles rechazos del servidor
+  return next(req).pipe(
+    catchError((error: HttpErrorResponse) => {
+      // 401 Unauthorized: El token expiró o fue revocado
+      if (error.status === 401) {
+        // Evitamos mostrar alerta si el error viene de la pantalla de login
+        if (!req.url.includes('/login')) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Sesión Expirada',
+            text: 'Tu sesión ha terminado. Por favor, inicia sesión nuevamente.',
+            timer: 3000,
+            showConfirmButton: false
+          });
+        }
+        
+        // Limpiamos todo rastro y lo echamos
+        authService.logout(); 
+      }
+      
+      return throwError(() => error);
+    })
+  );
 };

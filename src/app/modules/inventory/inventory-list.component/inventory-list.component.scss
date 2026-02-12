@@ -1,45 +1,66 @@
 // ============================================
-// Variables
+// Variables Premium
 // ============================================
 @use "sass:color";
 
-$primary-color: #6366f1;
-$success-color: #10b981;
-$warning-color: #f59e0b;
-$danger-color: #ef4444;
-$info-color: #3b82f6;
+// Colores principales
+$primary: #6366f1;
+$primary-light: #818cf8;
+$primary-dark: #4f46e5;
+$success: #10b981;
+$success-light: #34d399;
+$danger: #ef4444;
+$warning: #f59e0b;
+$info: #3b82f6;
+$purple: #8b5cf6;
+$cyan: #06b6d4;
 
-$text-dark: #111827;
-$text-medium: #6b7280;
-$text-light: #9ca3af;
+// Textos
+$text-dark: #0f172a;
+$text-medium: #475569;
+$text-light: #94a3b8;
 
-$bg-light: #f9fafb;
-$bg-white: #ffffff;
-$border-color: #e5e7eb;
+// Fondos
+$bg-primary: #ffffff;
+$bg-secondary: #f8fafc;
+$bg-tertiary: #f1f5f9;
+$border: #e2e8f0;
+$border-light: #f1f5f9;
 
-$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+// Sombras premium
+$shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-sm: 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.08);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+$shadow-primary: 0 8px 16px -4px rgba(99, 102, 241, 0.24);
+$shadow-success: 0 8px 16px -4px rgba(16, 185, 129, 0.24);
 
-$radius-sm: 8px;
-$radius-md: 12px;
-$radius-lg: 16px;
+// Radios
+$radius-sm: 10px;
+$radius-md: 14px;
+$radius-lg: 18px;
+$radius-xl: 24px;
 
 // ============================================
-// Container
+// Contenedor Principal con Animación
 // ============================================
 
 .inventory-container {
   padding: 2rem;
   max-width: 1600px;
   margin: 0 auto;
-  animation: fadeIn 0.4s ease;
+  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
 }
 
-@keyframes fadeIn {
+@keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -48,11 +69,12 @@ $radius-lg: 16px;
 }
 
 // ============================================
-// Header
+// Header Premium con Gradiente
 // ============================================
 
 .inventory-header {
   margin-bottom: 2rem;
+  position: relative;
 
   .header-content {
     display: flex;
@@ -60,6 +82,34 @@ $radius-lg: 16px;
     align-items: center;
     flex-wrap: wrap;
     gap: 1.5rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, $bg-primary 0%, $bg-secondary 100%);
+    border-radius: $radius-lg;
+    border: 1px solid $border-light;
+    box-shadow: $shadow-sm;
+    position: relative;
+    overflow: hidden;
+
+    // Decoración con gradiente sutil
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, 
+        $primary 0%, 
+        $primary-light 50%, 
+        $primary 100%
+      );
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1.25rem;
+    }
   }
 
   .title-section {
@@ -68,20 +118,44 @@ $radius-lg: 16px;
     gap: 1rem;
 
     .icon-wrapper {
-      width: 56px;
-      height: 56px;
+      width: 64px;
+      height: 64px;
       border-radius: $radius-md;
-      // CORREGIDO: lighten -> color.adjust
-      background: linear-gradient(135deg, $primary-color, color.adjust($primary-color, $lightness: 10%));
+      background: linear-gradient(135deg, $primary 0%, $primary-light 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+      box-shadow: $shadow-primary;
+      position: relative;
+      overflow: hidden;
+
+      // Efecto de pulso sutil
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: $radius-md;
+        background: inherit;
+        animation: pulse 2s ease-in-out infinite;
+        opacity: 0;
+      }
 
       i-feather {
-        width: 28px;
-        height: 28px;
+        width: 32px;
+        height: 32px;
         color: white;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        stroke-width: 2;
+      }
+
+      @media (max-width: 768px) {
+        width: 56px;
+        height: 56px;
+
+        i-feather {
+          width: 28px;
+          height: 28px;
+        }
       }
     }
 
@@ -90,50 +164,99 @@ $radius-lg: 16px;
       font-weight: 700;
       color: $text-dark;
       margin: 0 0 0.25rem 0;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+
+      @media (max-width: 768px) {
+        font-size: 1.5rem;
+      }
     }
 
     .subtitle {
-      font-size: 0.95rem;
+      font-size: 0.9375rem;
       color: $text-medium;
       margin: 0;
+      font-weight: 500;
     }
   }
 
   .btn-new-product {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.875rem 1.75rem;
-    // CORREGIDO: lighten -> color.adjust
-    background: linear-gradient(135deg, $primary-color, color.adjust($primary-color, $lightness: 8%));
+    gap: 0.625rem;
+    padding: 1rem 1.75rem;
+    background: linear-gradient(135deg, $primary 0%, $primary-light 100%);
     color: white;
     border: none;
     border-radius: $radius-sm;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.9375rem;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: $shadow-primary;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      transition: left 0.5s ease;
+    }
 
     i-feather {
       width: 20px;
       height: 20px;
+      stroke-width: 2.5;
+      transition: transform 0.2s ease;
     }
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba($primary-color, 0.4);
+      box-shadow: 0 12px 20px -4px rgba($primary, 0.3);
+
+      &::before {
+        left: 100%;
+      }
+
+      i-feather {
+        transform: rotate(90deg);
+      }
     }
 
     &:active {
       transform: translateY(0);
     }
+
+    @media (max-width: 768px) {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.1;
+    transform: scale(1.05);
   }
 }
 
 // ============================================
-// Filters Section
+// Sección de Filtros Premium
 // ============================================
 
 .filters-section {
@@ -141,22 +264,32 @@ $radius-lg: 16px;
   grid-template-columns: 1fr auto;
   gap: 1rem;
   margin-bottom: 1.5rem;
+  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .search-box {
   position: relative;
   display: flex;
   align-items: center;
-  background: $bg-white;
-  border: 2px solid $border-color;
+  background: $bg-primary;
+  border: 1.5px solid $border;
   border-radius: $radius-md;
   padding: 0 1rem;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: $shadow-sm;
 
+  &:hover {
+    border-color: color.adjust($border, $lightness: -10%);
+  }
+
   &:focus-within {
-    border-color: $primary-color;
-    box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.08);
+    transform: translateY(-1px);
   }
 
   i-feather {
@@ -164,14 +297,17 @@ $radius-lg: 16px;
     height: 20px;
     color: $text-light;
     flex-shrink: 0;
+    stroke-width: 2;
   }
 
   input {
     flex: 1;
-    padding: 0.875rem 1rem;
+    padding: 1rem;
     border: none;
     background: none;
-    font-size: 0.95rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: $text-dark;
 
     &:focus {
       outline: none;
@@ -179,6 +315,7 @@ $radius-lg: 16px;
 
     &::placeholder {
       color: $text-light;
+      font-weight: 400;
     }
   }
 
@@ -190,15 +327,23 @@ $radius-lg: 16px;
     color: $text-medium;
     border-radius: $radius-sm;
     transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
-      background: $bg-light;
-      color: $text-dark;
+      background: $bg-tertiary;
+      color: $danger;
+
+      i-feather {
+        transform: rotate(90deg);
+      }
     }
 
     i-feather {
       width: 18px;
       height: 18px;
+      transition: transform 0.2s ease;
     }
   }
 }
@@ -206,6 +351,15 @@ $radius-lg: 16px;
 .filter-group {
   display: flex;
   gap: 1rem;
+
+  @media (max-width: 1200px) {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 }
 
 .category-filter {
@@ -213,32 +367,60 @@ $radius-lg: 16px;
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: $bg-white;
-  border: 2px solid $border-color;
+  background: $bg-primary;
+  border: 1.5px solid $border;
   border-radius: $radius-md;
   padding: 0 1rem;
   box-shadow: $shadow-sm;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    border-color: color.adjust($border, $lightness: -10%);
+  }
+
+  &:focus-within {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.08);
+  }
 
   i-feather {
     width: 20px;
     height: 20px;
-    color: $text-medium;
+    color: $primary;
     flex-shrink: 0;
+    stroke-width: 2;
   }
 
   select {
-    padding: 0.875rem 1rem;
+    padding: 1rem;
     border: none;
     background: none;
-    font-size: 0.95rem;
-    font-weight: 500;
+    font-size: 0.9375rem;
+    font-weight: 600;
     color: $text-dark;
     cursor: pointer;
     min-width: 150px;
+    appearance: none;
 
     &:focus {
       outline: none;
     }
+
+    @media (max-width: 768px) {
+      min-width: 120px;
+    }
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 1rem;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid $text-medium;
+    pointer-events: none;
   }
 }
 
@@ -246,39 +428,63 @@ $radius-lg: 16px;
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: $bg-light;
-  border: 2px solid $border-color;
+  background: linear-gradient(135deg, $bg-secondary 0%, $bg-tertiary 100%);
+  border: 1.5px solid $border-light;
   border-radius: $radius-md;
-  padding: 0 1.25rem;
+  padding: 0 1.5rem;
   white-space: nowrap;
+  box-shadow: $shadow-xs;
 
   i-feather {
     width: 18px;
     height: 18px;
-    color: $primary-color;
+    color: $primary;
+    stroke-width: 2.5;
   }
 
   span {
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 0.875rem;
+    font-weight: 700;
     color: $text-dark;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
   }
 }
 
 // ============================================
-// Table Card
+// Tabla Premium con Animaciones
 // ============================================
 
 .table-card {
-  background: $bg-white;
-  border-radius: $radius-md;
+  background: $bg-primary;
+  border-radius: $radius-lg;
   box-shadow: $shadow-md;
-  border: 1px solid $border-color;
+  border: 1px solid $border-light;
   overflow: hidden;
+  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
 }
 
 .table-wrapper {
   overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $bg-secondary;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $border;
+    border-radius: $radius-sm;
+
+    &:hover {
+      background: color.adjust($border, $lightness: -20%);
+    }
+  }
 }
 
 .products-table {
@@ -286,46 +492,57 @@ $radius-lg: 16px;
   border-collapse: collapse;
 
   thead {
-    background: linear-gradient(135deg, $bg-light 0%, $bg-white 100%);
-    border-bottom: 2px solid $border-color;
+    background: linear-gradient(135deg, $bg-secondary 0%, $bg-tertiary 100%);
+    border-bottom: 2px solid $border-light;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 
-    tr {
-      th {
-        padding: 1.25rem 1.5rem;
-        text-align: left;
-        font-weight: 600;
-        font-size: 0.85rem;
-        color: $text-dark;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        white-space: nowrap;
+    tr th {
+      padding: 1.25rem 1.5rem;
+      text-align: left;
+      font-weight: 700;
+      font-size: 0.8125rem;
+      color: $text-dark;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
 
-        .th-content {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
+      .th-content {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
 
-          i-feather {
-            width: 16px;
-            height: 16px;
-            color: $primary-color;
-          }
+        i-feather {
+          width: 16px;
+          height: 16px;
+          color: $primary;
+          stroke-width: 2.5;
         }
+      }
 
-        &.actions-column {
-          text-align: center;
-        }
+      &.actions-column {
+        text-align: center;
       }
     }
   }
 
   tbody {
     tr.product-row {
-      border-bottom: 1px solid $border-color;
-      transition: all 0.2s ease;
+      border-bottom: 1px solid $border-light;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: fadeInRow 0.4s ease both;
+
+      @for $i from 1 through 10 {
+        &:nth-child(#{$i}) {
+          animation-delay: #{$i * 0.05}s;
+        }
+      }
 
       &:hover {
-        background: $bg-light;
+        background: linear-gradient(135deg, $bg-secondary 0%, rgba($primary, 0.02) 100%);
+        transform: translateX(4px);
+        box-shadow: inset 4px 0 0 $primary;
       }
 
       td {
@@ -340,40 +557,71 @@ $radius-lg: 16px;
   }
 }
 
-// SKU Badge
-.sku-badge {
-  display: inline-block;
-  padding: 0.375rem 0.875rem;
-  background: $bg-light;
-  border: 1px solid $border-color;
-  border-radius: $radius-sm;
-  font-family: 'Courier New', monospace;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: $text-dark;
+@keyframes fadeInRow {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-// Product Cell
+// ============================================
+// Badges y Etiquetas Premium
+// ============================================
+
+.sku-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.875rem;
+  background: linear-gradient(135deg, $bg-secondary 0%, $bg-tertiary 100%);
+  border: 1.5px solid $border;
+  border-radius: $radius-sm;
+  font-family: 'Courier New', 'Consolas', monospace;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: $text-dark;
+  letter-spacing: 0.025em;
+  box-shadow: $shadow-xs;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-sm;
+  }
+}
+
+// Celda de Producto Premium
 .product-cell {
   display: flex;
   align-items: center;
   gap: 1rem;
 
   .product-icon {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     border-radius: $radius-sm;
-    background: linear-gradient(135deg, rgba($primary-color, 0.1), rgba($primary-color, 0.05));
+    background: linear-gradient(135deg, rgba($primary, 0.1) 0%, rgba($primary, 0.05) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    border: 1.5px solid rgba($primary, 0.1);
+    transition: all 0.2s ease;
 
     i-feather {
-      width: 20px;
-      height: 20px;
-      color: $primary-color;
+      width: 22px;
+      height: 22px;
+      color: $primary;
+      stroke-width: 2;
     }
+  }
+
+  &:hover .product-icon {
+    transform: scale(1.1) rotate(5deg);
+    background: linear-gradient(135deg, rgba($primary, 0.15) 0%, rgba($primary, 0.08) 100%);
   }
 
   .product-info {
@@ -383,84 +631,128 @@ $radius-lg: 16px;
 
     .product-name {
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: 0.9375rem;
       color: $text-dark;
+      letter-spacing: -0.01em;
     }
 
     .product-desc {
-      font-size: 0.85rem;
+      font-size: 0.8125rem;
       color: $text-medium;
       max-width: 300px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-weight: 500;
     }
   }
 }
 
-// Category Badge
+// Badge de Categoría Premium
 .category-badge {
-  display: inline-block;
-  padding: 0.375rem 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
   border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  box-shadow: $shadow-xs;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-sm;
+  }
 
   &[data-category="Bebidas"] {
-    background: rgba($info-color, 0.1);
-    color: $info-color;
+    background: linear-gradient(135deg, rgba($info, 0.15) 0%, rgba($info, 0.1) 100%);
+    color: $info;
+    border: 1.5px solid rgba($info, 0.2);
   }
 
   &[data-category="Snacks"] {
-    background: rgba($warning-color, 0.1);
-    color: $warning-color;
+    background: linear-gradient(135deg, rgba($warning, 0.15) 0%, rgba($warning, 0.1) 100%);
+    color: $warning;
+    border: 1.5px solid rgba($warning, 0.2);
   }
 
   &[data-category="Abarrotes"] {
-    background: rgba($success-color, 0.1);
-    color: $success-color;
+    background: linear-gradient(135deg, rgba($success, 0.15) 0%, rgba($success, 0.1) 100%);
+    color: $success;
+    border: 1.5px solid rgba($success, 0.2);
+  }
+
+  &[data-category="Electrónica"] {
+    background: linear-gradient(135deg, rgba($purple, 0.15) 0%, rgba($purple, 0.1) 100%);
+    color: $purple;
+    border: 1.5px solid rgba($purple, 0.2);
+  }
+
+  &[data-category="Alimentos"] {
+    background: linear-gradient(135deg, rgba($cyan, 0.15) 0%, rgba($cyan, 0.1) 100%);
+    color: $cyan;
+    border: 1.5px solid rgba($cyan, 0.2);
   }
 
   &[data-category="General"] {
-    background: rgba($text-medium, 0.1);
+    background: linear-gradient(135deg, rgba($text-medium, 0.15) 0%, rgba($text-medium, 0.1) 100%);
     color: $text-medium;
+    border: 1.5px solid rgba($text-medium, 0.2);
   }
 }
 
-// Price
+// Precio Premium
 .price {
-  font-weight: 700;
-  font-size: 1rem;
-  color: $success-color;
+  font-weight: 800;
+  font-size: 1.0625rem;
+  background: linear-gradient(135deg, $success 0%, $success-light 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
 }
 
-// Status Badge
+// Badge de Estado Premium
 .status-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.375rem 0.875rem;
+  padding: 0.5rem 1rem;
   border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  box-shadow: $shadow-xs;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-sm;
+  }
 
   i-feather {
     width: 16px;
     height: 16px;
+    stroke-width: 2.5;
   }
 
   &.active {
-    background: rgba($success-color, 0.1);
-    color: $success-color;
+    background: linear-gradient(135deg, rgba($success, 0.15) 0%, rgba($success, 0.1) 100%);
+    color: $success;
+    border: 1.5px solid rgba($success, 0.2);
   }
 
   &:not(.active) {
-    background: rgba($danger-color, 0.1);
-    color: $danger-color;
+    background: linear-gradient(135deg, rgba($danger, 0.15) 0%, rgba($danger, 0.1) 100%);
+    color: $danger;
+    border: 1.5px solid rgba($danger, 0.2);
   }
 }
 
-// Action Buttons
+// ============================================
+// Botones de Acción Premium
+// ============================================
+
 .action-buttons {
   display: flex;
   gap: 0.5rem;
@@ -468,135 +760,198 @@ $radius-lg: 16px;
 }
 
 .btn-action {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border: none;
   border-radius: $radius-sm;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: $shadow-xs;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
 
   i-feather {
     width: 18px;
     height: 18px;
+    stroke-width: 2.5;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.2s ease;
   }
 
   &.edit {
-    background: rgba($primary-color, 0.1);
-    color: $primary-color;
+    background: linear-gradient(135deg, rgba($primary, 0.15) 0%, rgba($primary, 0.1) 100%);
+    color: $primary;
+    border: 1.5px solid rgba($primary, 0.2);
 
     &:hover {
-      background: $primary-color;
+      background: linear-gradient(135deg, $primary 0%, $primary-light 100%);
       color: white;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba($primary-color, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 12px -4px rgba($primary, 0.3);
+
+      i-feather {
+        transform: scale(1.1) rotate(-5deg);
+      }
     }
   }
 
   &.stock {
-    background: rgba($success-color, 0.1);
-    color: $success-color;
+    background: linear-gradient(135deg, rgba($success, 0.15) 0%, rgba($success, 0.1) 100%);
+    color: $success;
+    border: 1.5px solid rgba($success, 0.2);
 
     &:hover {
-      background: $success-color;
+      background: linear-gradient(135deg, $success 0%, $success-light 100%);
       color: white;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba($success-color, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 12px -4px rgba($success, 0.3);
+
+      i-feather {
+        transform: scale(1.1);
+      }
     }
   }
 
   &.more {
-    background: rgba($text-medium, 0.1);
+    background: linear-gradient(135deg, rgba($text-medium, 0.15) 0%, rgba($text-medium, 0.1) 100%);
     color: $text-medium;
+    border: 1.5px solid rgba($text-medium, 0.2);
 
     &:hover {
-      background: $text-medium;
+      background: linear-gradient(135deg, $text-medium 0%, $text-dark 100%);
       color: white;
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 12px -4px rgba($text-medium, 0.3);
+
+      i-feather {
+        transform: rotate(90deg);
+      }
     }
+  }
+
+  &:active {
+    transform: translateY(0) !important;
   }
 }
 
 // ============================================
-// Empty State
+// Estado Vacío Premium
 // ============================================
 
 .empty-state {
-  padding: 4rem 2rem !important;
+  padding: 5rem 2rem !important;
 
   .empty-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+    animation: fadeIn 0.6s ease;
 
     i-feather {
-      width: 64px;
-      height: 64px;
+      width: 80px;
+      height: 80px;
       color: $text-light;
+      opacity: 0.5;
+      animation: float 3s ease-in-out infinite;
     }
 
     h4 {
-      font-size: 1.25rem;
-      font-weight: 600;
+      font-size: 1.375rem;
+      font-weight: 700;
       color: $text-dark;
       margin: 0;
+      letter-spacing: -0.02em;
     }
 
     p {
       color: $text-medium;
       margin: 0;
+      font-size: 0.9375rem;
+      font-weight: 500;
     }
 
     .btn-clear-filters {
-      margin-top: 1rem;
+      margin-top: 1.5rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      background: $primary-color;
+      padding: 0.875rem 1.75rem;
+      background: linear-gradient(135deg, $primary 0%, $primary-light 100%);
       color: white;
       border: none;
       border-radius: $radius-sm;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: $shadow-primary;
 
       &:hover {
-        // CORREGIDO: darken -> color.adjust
-        background: color.adjust($primary-color, $lightness: -8%);
         transform: translateY(-2px);
+        box-shadow: 0 12px 20px -4px rgba($primary, 0.3);
       }
 
       i-feather {
         width: 18px;
         height: 18px;
         color: white;
+        animation: none;
       }
     }
   }
 }
 
-// Loading State
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Estado de Carga Premium
 .loading-state {
-  padding: 4rem 2rem;
+  padding: 5rem 2rem;
   text-align: center;
 
   .spinner-large {
-    width: 48px;
-    height: 48px;
-    border: 4px solid $border-color;
-    border-top-color: $primary-color;
+    width: 56px;
+    height: 56px;
+    border: 4px solid $border-light;
+    border-top-color: $primary;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 1rem;
+    animation: spin 0.8s cubic-bezier(0.6, 0.1, 0.4, 0.9) infinite;
+    margin: 0 auto 1.5rem;
   }
 
   p {
     color: $text-medium;
     margin: 0;
+    font-size: 0.9375rem;
+    font-weight: 500;
   }
 }
 
@@ -607,7 +962,7 @@ $radius-lg: 16px;
 }
 
 // ============================================
-// Modal
+// Modal Premium
 // ============================================
 
 .modal-overlay {
@@ -616,8 +971,8 @@ $radius-lg: 16px;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -627,25 +982,38 @@ $radius-lg: 16px;
 }
 
 .modal-container {
-  background: $bg-white;
-  border-radius: $radius-lg;
-  box-shadow: $shadow-lg;
-  max-width: 700px;
+  background: $bg-primary;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-xl;
+  max-width: 720px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  animation: slideUp 0.3s ease;
+  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $bg-secondary;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $border;
+    border-radius: $radius-sm;
+  }
 }
 
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(40px) scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -653,33 +1021,41 @@ $radius-lg: 16px;
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border: none;
-  background: $bg-light;
+  background: $bg-secondary;
   color: $text-medium;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
-  z-index: 1;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10;
+  box-shadow: $shadow-sm;
 
   i-feather {
     width: 20px;
     height: 20px;
+    stroke-width: 2.5;
+    transition: transform 0.2s ease;
   }
 
   &:hover {
-    background: $danger-color;
+    background: linear-gradient(135deg, $danger 0%, color.adjust($danger, $lightness: 10%) 100%);
     color: white;
-    transform: rotate(90deg);
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 8px 12px -4px rgba($danger, 0.3);
+  }
+
+  &:active {
+    transform: rotate(90deg) scale(0.95);
   }
 }
 
 // ============================================
-// Responsive
+// Responsive Design Premium
 // ============================================
 
 @media (max-width: 1200px) {
@@ -702,6 +1078,7 @@ $radius-lg: 16px;
     .header-content {
       flex-direction: column;
       align-items: flex-start;
+      padding: 1.25rem;
     }
 
     .btn-new-product {
@@ -715,7 +1092,7 @@ $radius-lg: 16px;
   }
 
   .products-table {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
 
     thead th,
     tbody td {
@@ -728,6 +1105,6 @@ $radius-lg: 16px;
   }
 
   .action-buttons {
-    flex-direction: column;
+    flex-wrap: wrap;
   }
 }

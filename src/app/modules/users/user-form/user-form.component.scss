@@ -1,0 +1,198 @@
+// src/app/modules/users/user-form/user-form.component.scss
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-overlay); // Variable nueva del root
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-container {
+  background: var(--bg-card);
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: slideUp 0.3s ease-out;
+}
+
+.modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--color-gray-200);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 { 
+    margin: 0; 
+    font-size: 1.25rem; 
+    color: var(--color-gray-900); 
+  }
+  
+  .btn-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-gray-400);
+    transition: color var(--transition-base);
+
+    &:hover { color: var(--color-error); }
+  }
+}
+
+.modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-section {
+  h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--color-gray-500);
+    margin-bottom: 1rem;
+    border-bottom: 1px dashed var(--color-gray-200);
+    padding-bottom: 0.5rem;
+  }
+}
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  label { 
+    font-size: 0.9rem; 
+    font-weight: 500; 
+    color: var(--color-gray-900); // Usamos 900 o 800
+  }
+  
+  input, select {
+    padding: 0.6rem;
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    background: white;
+    color: var(--color-gray-900);
+    transition: all var(--transition-base);
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); // Puedes crear variable shadow-focus si quieres
+    }
+  }
+}
+
+.modal-footer {
+  padding: 1.5rem;
+  background: var(--color-gray-50);
+  border-top: 1px solid var(--color-gray-200);
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+
+  button {
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+  }
+
+  .btn-cancel {
+    background: white;
+    border: 1px solid var(--color-gray-300);
+    color: var(--color-gray-600);
+    &:hover { background: var(--color-gray-100); }
+  }
+
+  .btn-save {
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    
+    &:hover { background: var(--color-primary-dark); }
+    &:disabled { 
+      background: var(--color-gray-400); 
+      cursor: not-allowed; 
+    }
+  }
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+// Responsive
+@media (max-width: 640px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .input-icon {
+    position: absolute;
+    left: 12px;
+    color: var(--color-gray-400);
+    width: 18px;
+    height: 18px;
+    pointer-events: none; // Para que el click pase al input
+    transition: color 0.2s;
+  }
+
+  input {
+    width: 100%;
+    padding-left: 40px; // Espacio para el icono
+    // ... resto de estilos de input ...
+    
+    &:focus + .input-icon, 
+    &:focus ~ .input-icon { // Selector de hermanos adyacentes
+      color: var(--color-primary);
+    }
+  }
+}
+
+.modal-header {
+  // Mejorar layout
+  h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.2rem; }
+  .subtitle { color: var(--color-gray-500); font-size: 0.9rem; margin: 0; }
+  
+  .btn-close {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    &:hover { background: var(--color-gray-100); }
+  }
+}
+
+.form-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  .section-icon { width: 16px; height: 16px; color: var(--color-primary); }
+}

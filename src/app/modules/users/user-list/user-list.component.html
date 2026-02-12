@@ -1,0 +1,99 @@
+<div class="page-header">
+  <div class="header-content">
+    <h1>Gestión de Usuarios</h1>
+    <p class="subtitle">
+      @if (myRole === 'OWNER') { Control total de accesos y roles } @else { Gestión operativa de personal }
+    </p>
+  </div>
+  <button class="btn-primary" (click)="openCreateModal()">
+    <i-feather name="plus" class="icon-sm"></i-feather>
+    <span>Nuevo Usuario</span>
+  </button>
+</div>
+
+<div class="table-container">
+  @if (isLoading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando equipo...</p>
+    </div>
+  } @else {
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Colaborador</th>
+          <th>Rol</th>
+          <th>Sede</th>
+          <th>Estado</th>
+          <th class="text-right">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of users(); track user._id) {
+          <tr>
+            <td>
+              <div class="user-profile">
+                <div class="avatar-placeholder">{{ user.fullName.charAt(0) }}</div>
+                <div class="user-info">
+                  <span class="name">{{ user.fullName }}</span>
+                  <span class="email">{{ user.email }}</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="badge" [class]="user.role">{{ user.role }}</span>
+            </td>
+            <td>
+              <span class="branch-text">{{ user.branch?.name || '🌎 Global' }}</span>
+            </td>
+            <td>
+              @if (user.isActive) {
+                <span class="status-pill active">
+                  <i-feather name="check-circle"></i-feather> Activo
+                </span>
+              } @else {
+                <span class="status-pill inactive">
+                  <i-feather name="slash"></i-feather> Inactivo
+                </span>
+              }
+            </td>
+            <td>
+              <div class="actions">
+                <button class="btn-icon edit" (click)="openEditModal(user)" title="Editar información">
+                  <i-feather name="edit-2"></i-feather>
+                </button>
+                
+                @if (user.isActive) {
+                  <button class="btn-icon danger" (click)="toggleStatus(user)" title="Deshabilitar acceso">
+                    <i-feather name="x-circle"></i-feather>
+                  </button>
+                } @else {
+                  <button class="btn-icon success" (click)="toggleStatus(user)" title="Aprobar / Activar">
+                    <i-feather name="user-check"></i-feather>
+                  </button>
+                }
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="5">
+              <div class="empty-state">
+                <i-feather name="users" class="icon-lg"></i-feather>
+                <p>No hay usuarios registrados aún.</p>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
+
+@if (showModal()) {
+  <app-user-form
+    [user]="selectedUser()"
+    (close)="closeModal()"
+    (saved)="loadUsers()">
+  </app-user-form>
+}

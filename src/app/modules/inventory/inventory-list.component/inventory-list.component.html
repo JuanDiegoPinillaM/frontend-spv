@@ -188,7 +188,10 @@
         <i-feather name="x"></i-feather>
       </button>
       
-      <app-inventory-form (onSaveSuccess)="handleCloseModal()"></app-inventory-form>
+      <app-inventory-form 
+        (onSaveSuccess)="handleCloseModal()"
+        (onCancelEvent)="showModal.set(false)"
+      ></app-inventory-form>
     </div>
   </div>
 }

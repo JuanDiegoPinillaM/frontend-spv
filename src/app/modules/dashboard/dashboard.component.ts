@@ -1,8 +1,8 @@
 import { Component, OnInit, inject, signal, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { SalesService } from '../../../core/services/sales.service';
-import { AuthService } from '../../../core/services/auth.service';
+import { SalesService } from '../../core/services/sales.service';
+import { AuthService } from '../../core/services/auth.service';
 import { FeatherModule } from 'angular-feather';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 

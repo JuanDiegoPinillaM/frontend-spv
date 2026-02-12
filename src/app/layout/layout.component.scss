@@ -1,0 +1,223 @@
+// src/app/layout/layout.component.scss
+
+// ============================================
+// Layout Wrapper
+// ============================================
+
+.layout-wrapper {
+  display: flex;
+  height: 100vh; // Ocupa toda la pantalla
+  width: 100%;
+  background: var(--bg-main);
+  overflow: hidden; // Evita scroll doble
+}
+
+// ============================================
+// Sidebar
+// ============================================
+
+.sidebar {
+  width: var(--sidebar-width);
+  background: var(--sidebar-bg);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0; // No encoger
+  z-index: 1000;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform var(--transition-base);
+
+  .brand {
+    height: var(--topbar-height);
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    h3 {
+      margin: 0;
+      color: white;
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+
+  .menu {
+    flex: 1;
+    padding: 1.5rem 0.75rem;
+    overflow-y: auto;
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      color: var(--sidebar-text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      border-radius: var(--radius-md);
+      transition: all var(--transition-base);
+      margin-bottom: 0.25rem;
+
+      i-feather {
+        width: 20px;
+        height: 20px;
+        opacity: 0.8;
+      }
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--sidebar-text-hover);
+        
+        i-feather { opacity: 1; }
+      }
+
+      &.active {
+        background: var(--sidebar-active-bg);
+        color: var(--color-primary-light);
+        
+        i-feather { 
+          opacity: 1; 
+          color: var(--color-primary);
+        }
+      }
+    }
+  }
+
+  .footer {
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+    .logout-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      background: rgba(239, 68, 68, 0.1);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all var(--transition-base);
+
+      i-feather { width: 18px; height: 18px; }
+
+      &:hover {
+        background: rgba(239, 68, 68, 0.2);
+        color: var(--color-error);
+        border-color: var(--color-error);
+      }
+    }
+  }
+}
+
+// ============================================
+// Main Content Area
+// ============================================
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+// ============================================
+// Topbar
+// ============================================
+
+.topbar {
+  height: var(--topbar-height);
+  background: var(--topbar-bg);
+  padding: 0 2rem;
+  border-bottom: 1px solid var(--color-gray-200);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-shrink: 0;
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .role-badge {
+      padding: 0.25rem 0.75rem;
+      background: var(--color-primary-gradient);
+      color: white;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      box-shadow: var(--shadow-primary);
+    }
+
+    .username {
+      font-weight: 600;
+      color: var(--color-gray-800);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      &::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        background: var(--color-success);
+        border-radius: 50%;
+        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+      }
+    }
+  }
+}
+
+// ============================================
+// Page Content (Donde se renderizan las rutas)
+// ============================================
+
+.page-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto; // Scroll solo aquí
+  background: var(--bg-main);
+  
+  // Animación de entrada suave
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// ============================================
+// Responsive
+// ============================================
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    transform: translateX(-100%);
+    
+    &.mobile-open {
+      transform: translateX(0);
+    }
+  }
+
+  .topbar {
+    padding: 0 1rem;
+  }
+
+  .page-content {
+    padding: 1rem;
+  }
+}

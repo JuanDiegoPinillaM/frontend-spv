@@ -1,82 +1,158 @@
 // ============================================
-// Google Fonts Import
+// Variables CSS Globales Premium
 // ============================================
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+:root {
+  // Colores de Marca - Paleta Refinada
+  --color-primary: #6366f1;
+  --color-primary-light: #818cf8;
+  --color-primary-dark: #4f46e5;
+  --color-primary-gradient: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
+  
+  --color-secondary: #0ea5e9;
+  --color-success: #10b981;
+  --color-success-light: #34d399;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  --color-info: #3b82f6;
+  --color-purple: #8b5cf6;
+  --color-cyan: #06b6d4;
+
+  // Escala de Grises Premium
+  --color-gray-50: #f8fafc;
+  --color-gray-100: #f1f5f9;
+  --color-gray-200: #e2e8f0;
+  --color-gray-300: #cbd5e1;
+  --color-gray-400: #94a3b8;
+  --color-gray-500: #64748b;
+  --color-gray-600: #475569;
+  --color-gray-700: #334155;
+  --color-gray-800: #1e293b;
+  --color-gray-900: #0f172a;
+
+  // Layout & Sidebar
+  --sidebar-width: 280px;
+  --sidebar-bg: #1e293b;
+  --sidebar-text: #94a3b8;
+  --sidebar-text-hover: #ffffff;
+  --sidebar-active-bg: rgba(99, 102, 241, 0.15);
+  --topbar-height: 72px;
+  --topbar-bg: #ffffff;
+
+  // Backgrounds Premium
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-secondary: #f1f5f9;
+  --bg-overlay: rgba(15, 23, 42, 0.6);
+
+  // Badges Premium
+  --badge-owner-bg: #e0e7ff;
+  --badge-owner-text: #4f46e5;
+  --badge-manager-bg: #d1fae5;
+  --badge-manager-text: #059669;
+  --badge-cashier-bg: #fef3c7;
+  --badge-cashier-text: #d97706;
+
+  // Bordes y Radios Premium
+  --border-color: #e2e8f0;
+  --border-light: #f1f5f9;
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+  
+  // Sombras Premium - Más sutiles y profesionales
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-primary: 0 8px 16px -4px rgba(99, 102, 241, 0.24);
+  --shadow-success: 0 8px 16px -4px rgba(16, 185, 129, 0.24);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+
+  // Transiciones Premium
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  // Z-index Stack
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+}
 
 // ============================================
-// Reset y Base Styles
+// Reset Global Premium
 // ============================================
 
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
-  height: 100%;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+html {
   font-size: 16px;
-  line-height: 1.5;
-  color: #111827;
-  background: #f9fafb;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  width: 100%;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  background-color: var(--bg-main);
+  color: var(--color-gray-900);
+  line-height: 1.6;
+  font-weight: 400;
 }
 
 // ============================================
-// Typography
+// Tipografía Premium
 // ============================================
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 600;
-  line-height: 1.2;
-  color: #111827;
-}
-
-h1 {
-  font-size: 2.5rem;
   font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: var(--color-gray-900);
 }
 
-h2 {
-  font-size: 2rem;
-}
-
-h3 {
-  font-size: 1.5rem;
-}
-
-h4 {
-  font-size: 1.25rem;
-}
-
-h5 {
-  font-size: 1.125rem;
-}
-
-h6 {
-  font-size: 1rem;
-}
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
 
 p {
   margin-bottom: 1rem;
-  color: #374151;
+  line-height: 1.6;
 }
 
 a {
-  color: #6366f1;
+  color: var(--color-primary);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color var(--transition-base);
 
   &:hover {
-    color: #4f46e5;
+    color: var(--color-primary-dark);
   }
 }
 
 // ============================================
-// Scrollbar Customization
+// Scrollbar Premium - Estilo macOS/iOS
 // ============================================
 
 ::-webkit-scrollbar {
@@ -85,62 +161,300 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+  background: var(--color-gray-300);
+  border-radius: var(--radius-md);
+  border: 2px solid var(--bg-secondary);
+  transition: background var(--transition-base);
 
   &:hover {
-    background: #94a3b8;
+    background: var(--color-gray-400);
+  }
+
+  &:active {
+    background: var(--color-gray-500);
   }
 }
 
-// ============================================
-// Utility Classes
-// ============================================
-
-.text-center {
-  text-align: center;
+// Firefox scrollbar
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gray-300) var(--bg-secondary);
 }
 
-.text-right {
-  text-align: right;
+// ============================================
+// SweetAlert2 Premium - Diseño Elegante
+// ============================================
+
+.swal2-popup {
+  padding: 2.5rem !important;
+  border-radius: var(--radius-xl) !important;
+  font-family: 'Inter', sans-serif !important;
+  background-color: var(--bg-card) !important;
+  box-shadow: var(--shadow-xl) !important;
+  border: 1px solid var(--border-light) !important;
+  animation: swalFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-.text-left {
-  text-align: left;
+@keyframes swalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
-.mt-1 { margin-top: 0.5rem; }
-.mt-2 { margin-top: 1rem; }
-.mt-3 { margin-top: 1.5rem; }
-.mt-4 { margin-top: 2rem; }
+// Títulos
+.swal2-title {
+  color: var(--color-gray-900) !important;
+  font-size: 1.625rem !important;
+  font-weight: 700 !important;
+  padding-top: 1rem !important;
+  letter-spacing: -0.025em !important;
+  margin-bottom: 0.75rem !important;
+}
 
-.mb-1 { margin-bottom: 0.5rem; }
-.mb-2 { margin-bottom: 1rem; }
-.mb-3 { margin-bottom: 1.5rem; }
-.mb-4 { margin-bottom: 2rem; }
+// Texto de contenido
+.swal2-html-container {
+  color: var(--color-gray-600) !important;
+  font-size: 1rem !important;
+  line-height: 1.7 !important;
+  margin: 1rem 0 !important;
+  font-weight: 500 !important;
+}
 
-.pt-1 { padding-top: 0.5rem; }
-.pt-2 { padding-top: 1rem; }
-.pt-3 { padding-top: 1.5rem; }
-.pt-4 { padding-top: 2rem; }
+// Contenedor de botones
+.swal2-actions {
+  margin-top: 2rem !important;
+  gap: 0.75rem !important;
+  width: 100% !important;
+  padding: 0 !important;
+}
 
-.pb-1 { padding-bottom: 0.5rem; }
-.pb-2 { padding-bottom: 1rem; }
-.pb-3 { padding-bottom: 1.5rem; }
-.pb-4 { padding-bottom: 2rem; }
+// Estilo de botones
+.swal2-styled {
+  padding: 0.875rem 2rem !important;
+  font-weight: 600 !important;
+  font-size: 0.9375rem !important;
+  border-radius: var(--radius-sm) !important;
+  transition: all var(--transition-base) !important;
+  border: none !important;
+  box-shadow: var(--shadow-sm) !important;
+  letter-spacing: -0.01em !important;
+
+  &:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-md) !important;
+  }
+
+  &:active {
+    transform: translateY(0) !important;
+  }
+
+  &:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
+  }
+}
+
+// Botón de Confirmar
+.swal2-confirm {
+  background: var(--color-primary-gradient) !important;
+  box-shadow: var(--shadow-primary) !important;
+
+  &:hover {
+    box-shadow: 0 12px 20px -4px rgba(99, 102, 241, 0.3) !important;
+  }
+}
+
+// Botón de Cancelar
+.swal2-cancel {
+  background: var(--bg-secondary) !important;
+  color: var(--color-gray-700) !important;
+  border: 1.5px solid var(--border-color) !important;
+  
+  &:hover {
+    background: var(--color-gray-200) !important;
+    color: var(--color-gray-900) !important;
+    border-color: var(--color-gray-300) !important;
+  }
+}
+
+// Iconos Premium
+.swal2-icon {
+  border-width: 3px !important;
+  margin: 1.5rem auto 1rem !important;
+  
+  &.swal2-success {
+    border-color: var(--color-success) !important;
+    
+    [class^='swal2-success-line'] {
+      background-color: var(--color-success) !important;
+    }
+    
+    .swal2-success-ring {
+      border: 4px solid rgba(16, 185, 129, 0.15) !important;
+    }
+  }
+
+  &.swal2-error {
+    border-color: var(--color-error) !important;
+    
+    .swal2-x-mark-line-left,
+    .swal2-x-mark-line-right {
+      background-color: var(--color-error) !important;
+    }
+  }
+
+  &.swal2-warning {
+    border-color: var(--color-warning) !important;
+    color: var(--color-warning) !important;
+  }
+
+  &.swal2-info {
+    border-color: var(--color-info) !important;
+    color: var(--color-info) !important;
+  }
+}
+
+// Input dentro de SweetAlert
+.swal2-input,
+.swal2-textarea {
+  border: 1.5px solid var(--border-color) !important;
+  border-radius: var(--radius-sm) !important;
+  font-size: 0.9375rem !important;
+  padding: 0.875rem 1rem !important;
+  font-family: inherit !important;
+  font-weight: 500 !important;
+  transition: all var(--transition-base) !important;
+  
+  &:hover {
+    border-color: var(--color-gray-300) !important;
+  }
+  
+  &:focus {
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08) !important;
+    outline: none !important;
+  }
+}
+
+// Timer progress bar
+.swal2-timer-progress-bar {
+  background: var(--color-primary-gradient) !important;
+}
 
 // ============================================
-// Animations
+// Utilidades Globales
+// ============================================
+
+// Contenedor centrado
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+  }
+}
+
+// Card Premium
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+  transition: all var(--transition-base);
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+}
+
+// Botón Premium Base
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// Badge Premium
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+}
+
+// Skeleton Loading Premium
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-secondary) 0%,
+    var(--color-gray-200) 50%,
+    var(--bg-secondary) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+
+// ============================================
+// Animaciones Globales
 // ============================================
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -148,62 +462,98 @@ a {
   }
 }
 
-@keyframes slideIn {
+@keyframes slideInRight {
   from {
-    transform: translateX(-20px);
     opacity: 0;
+    transform: translateX(20px);
   }
   to {
+    opacity: 1;
     transform: translateX(0);
-    opacity: 1;
   }
 }
 
-@keyframes spin {
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
   to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
     opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
+    transform: scale(1);
   }
 }
 
-// ============================================
-// Form Elements
-// ============================================
-
-input, textarea, select {
-  font-family: inherit;
-  font-size: inherit;
+// Clases de animación reutilizables
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease;
 }
 
-button {
-  font-family: inherit;
-  cursor: pointer;
+.animate-fadeInUp {
+  animation: fadeInUp 0.4s ease;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.3s ease;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// ============================================
+// Utilidades de Texto
+// ============================================
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.font-medium {
+  font-weight: 500;
 }
 
 // ============================================
 // Responsive Utilities
 // ============================================
 
+@media (max-width: 1200px) {
+  html {
+    font-size: 15px;
+  }
+}
+
 @media (max-width: 768px) {
-  h1 {
-    font-size: 2rem;
+  html {
+    font-size: 14px;
   }
 
-  h2 {
-    font-size: 1.75rem;
-  }
-
-  h3 {
-    font-size: 1.25rem;
-  }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.5rem; }
+  h4 { font-size: 1.25rem; }
 }
 
 // ============================================
@@ -211,18 +561,11 @@ button {
 // ============================================
 
 @media print {
-  .sidebar,
-  .topbar,
-  .quick-actions,
-  .action-buttons {
+  body {
+    background: white;
+  }
+
+  .no-print {
     display: none !important;
-  }
-
-  .main-content {
-    margin-left: 0 !important;
-  }
-
-  .dashboard-container {
-    padding: 0 !important;
   }
 }

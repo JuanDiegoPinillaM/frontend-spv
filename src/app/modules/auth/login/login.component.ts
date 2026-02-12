@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
@@ -27,7 +27,12 @@ export class LoginComponent {
   rememberMe = false;
 
   ngOnInit() {
-    // Cargar credenciales guardadas si existen
+    // Si el usuario ya está logueado, lo mandamos pa' dentro para que no vea el login
+    if (this.authService.currentUser()) {
+       this.redirectUser(this.authService.currentUser().role);
+       return;
+    }
+
     const savedEmail = localStorage.getItem('rememberedEmail');
     if (savedEmail) {
       this.loginForm.patchValue({ email: savedEmail });
@@ -58,17 +63,13 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.invalid) {
-      // Marcar todos los campos como touched para mostrar errores
-      Object.keys(this.loginForm.controls).forEach(key => {
-        this.loginForm.get(key)?.markAsTouched();
-      });
+      this.loginForm.markAllAsTouched();
       return;
     }
 
-    this.isLoading = true;
+    this.isLoading = true; // Iniciamos la carga
     const credentials = this.loginForm.value;
 
-    // Guardar email si "Recordarme" está activado
     if (this.rememberMe) {
       localStorage.setItem('rememberedEmail', credentials.email);
     } else {
@@ -77,52 +78,54 @@ export class LoginComponent {
 
     this.authService.login(credentials).subscribe({
       next: (response) => {
-        // Toast de bienvenida
+        this.isLoading = false; // ✅ CORRECCIÓN: Liberar el botón
+
         Swal.fire({
           icon: 'success',
           title: '¡Bienvenido!',
-          text: `Acceso correcto como ${response.user?.fullName || 'Usuario'}`,
-          timer: 2000,
-          showConfirmButton: false,
+          text: `Sesión iniciada como ${response.user?.fullName}`,
           toast: true,
           position: 'top-end',
-          timerProgressBar: true
+          showConfirmButton: false,
+          timer: 3000,
+          background: '#ffffff', 
+          color: '#111827'
         });
 
-        // Redirigir según el rol
-        const userRole = response.user?.role;
-        if (userRole === 'OWNER' || userRole === 'MANAGER') {
-          this.router.navigate(['/admin/dashboard']);
-        } else {
-          this.router.navigate(['/admin/pos']); // Cajeros directo al POS
-        }
-
-        this.isLoading = false;
+        this.redirectUser(response.user?.role);
       },
       error: (err) => {
-        this.isLoading = false;
+        this.isLoading = false; // ✅ CORRECCIÓN CRÍTICA: Liberar el botón en caso de error
         
-        // Mensajes de error más específicos
-        let errorMessage = 'Credenciales incorrectas';
-        let errorTitle = 'Error de autenticación';
+        let errorMessage = 'Error de conexión. Verifica que el servidor esté activo.';
+        let title = 'Error';
 
+        // Manejo detallado de errores HTTP
         if (err.status === 401) {
-          errorMessage = 'Email o contraseña incorrectos';
+          errorMessage = 'El correo o la contraseña son incorrectos.';
+          title = 'Credenciales Inválidas';
         } else if (err.status === 403) {
-          errorMessage = 'Tu cuenta ha sido desactivada. Contacta al administrador.';
-          errorTitle = 'Cuenta desactivada';
-        } else if (err.status === 0) {
-          errorMessage = 'No se pudo conectar con el servidor. Verifica tu conexión.';
-          errorTitle = 'Error de conexión';
+          errorMessage = 'Tu cuenta está inactiva o pendiente de aprobación por un administrador.';
+          title = 'Acceso Denegado';
         }
 
         Swal.fire({
           icon: 'error',
-          title: errorTitle,
+          title: title,
           text: errorMessage,
+          confirmButtonText: 'Reintentar',
           confirmButtonColor: '#ef4444'
         });
       }
     });
+  }
+
+  // Método auxiliar para evitar duplicar código de redirección
+  private redirectUser(role: string) {
+    if (role === 'OWNER' || role === 'MANAGER') {
+      this.router.navigate(['/admin/dashboard']);
+    } else {
+      this.router.navigate(['/admin/pos']);
+    }
   }
 }
