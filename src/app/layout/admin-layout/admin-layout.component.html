@@ -1,0 +1,38 @@
+<div class="layout-wrapper">
+  
+  <aside class="sidebar">
+    <div class="brand">
+      <h3>🚀 POS System</h3>
+    </div>
+
+    <nav class="menu">
+      @for (item of menuItems; track item.label) {
+        <a [routerLink]="item.route" routerLinkActive="active" class="menu-item">
+          <i-feather [name]="item.icon"></i-feather>
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+
+    <div class="footer">
+      <button (click)="logout()" class="logout-btn">
+        <i-feather name="log-out"></i-feather>
+        <span>Salir</span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    
+    <header class="topbar">
+      <div class="user-info">
+        <span class="role-badge">{{ currentUser()?.role || 'User' }}</span>
+        <span class="username">{{ currentUser()?.fullName }}</span>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <router-outlet></router-outlet> </div>
+
+  </main>
+</div>

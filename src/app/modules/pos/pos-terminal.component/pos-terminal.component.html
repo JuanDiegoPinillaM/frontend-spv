@@ -1,0 +1,222 @@
+<div class="pos-container">
+  
+  <!-- Left Section: Products -->
+  <section class="products-section">
+    
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <div class="search-input-wrapper">
+        <i-feather name="search"></i-feather>
+        <input 
+          type="text" 
+          placeholder="Buscar por nombre, código o SKU..." 
+          [ngModel]="searchTerm()" 
+          (ngModelChange)="searchTerm.set($event)"
+          class="search-input"
+        >
+        @if (searchTerm()) {
+          <button class="clear-search" (click)="searchTerm.set('')">
+            <i-feather name="x"></i-feather>
+          </button>
+        }
+      </div>
+      <div class="search-stats">
+        <span class="result-count">
+          <i-feather name="package"></i-feather>
+          {{ filteredProducts().length }} productos
+        </span>
+      </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="products-grid">
+      @for (p of filteredProducts(); track p._id) {
+        <div 
+          class="product-card" 
+          [class.out-of-stock]="(p.stock ?? 0) <= 0"
+          [class.low-stock]="(p.stock ?? 0) > 0 && (p.stock ?? 0) < 5"
+          (click)="(p.stock ?? 0) > 0 ? addToCart(p) : null"
+        >
+          <!-- Stock Badge -->
+          <div class="stock-badge" [class.critical]="(p.stock ?? 0) === 0">
+            @if ((p.stock ?? 0) === 0) {
+              <i-feather name="x-circle"></i-feather>
+              <span>Agotado</span>
+            } @else if ((p.stock ?? 0) < 5) {
+              <i-feather name="alert-triangle"></i-feather>
+              <span>{{ p.stock }}</span>
+            } @else {
+              <i-feather name="check-circle"></i-feather>
+              <span>{{ p.stock }}</span>
+            }
+          </div>
+
+          <!-- Product Info -->
+          <div class="product-body">
+            <div class="product-icon">
+              <i-feather name="package"></i-feather>
+            </div>
+            <h4 class="product-name">{{ p.name }}</h4>
+            <p class="product-sku">SKU: {{ p.sku }}</p>
+          </div>
+
+          <!-- Price -->
+          <div class="product-footer">
+            <div class="price-tag">
+              {{ p.price | currency:'COP':'$':'1.0-0' }}
+            </div>
+            @if ((p.stock ?? 0) > 0) {
+              <div class="add-indicator">
+                <i-feather name="plus-circle"></i-feather>
+              </div>
+            }
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-products">
+          <i-feather name="inbox"></i-feather>
+          <h3>No se encontraron productos</h3>
+          <p>Intenta con otro término de búsqueda</p>
+        </div>
+      }
+    </div>
+
+  </section>
+
+  <!-- Right Section: Cart -->
+  <aside class="cart-section">
+    
+    <!-- Cart Header -->
+    <div class="cart-header">
+      <div class="header-title">
+        <i-feather name="shopping-cart"></i-feather>
+        <h3>Carrito de Venta</h3>
+      </div>
+      @if (cart().length > 0) {
+        <button class="clear-cart-btn" (click)="clearCart()">
+          <i-feather name="trash-2"></i-feather>
+          Limpiar
+        </button>
+      }
+    </div>
+
+    <!-- Cart Items -->
+    <div class="cart-body">
+      @if (cart().length === 0) {
+        <div class="empty-cart">
+          <div class="empty-icon">
+            <i-feather name="shopping-bag"></i-feather>
+          </div>
+          <h4>Carrito vacío</h4>
+          <p>Selecciona productos para comenzar</p>
+        </div>
+      } @else {
+        <div class="cart-items">
+          @for (item of cart(); track item._id; let i = $index) {
+            <div class="cart-item">
+              <!-- Item Icon -->
+              <div class="item-icon">
+                <i-feather name="package"></i-feather>
+              </div>
+
+              <!-- Item Details -->
+              <div class="item-details">
+                <h5 class="item-name">{{ item.name }}</h5>
+                <p class="item-price">{{ item.price | currency:'COP':'$':'1.0-0' }} c/u</p>
+              </div>
+
+              <!-- Quantity Controls -->
+              <div class="quantity-controls">
+                <button 
+                  class="qty-btn decrease" 
+                  (click)="decreaseQuantity(i)"
+                  [disabled]="item.quantity <= 1"
+                >
+                  <i-feather name="minus"></i-feather>
+                </button>
+                <span class="quantity">{{ item.quantity }}</span>
+                <button 
+                  class="qty-btn increase" 
+                  (click)="increaseQuantity(i)"
+                  [disabled]="item.quantity >= (item.stock ?? 0)"
+                >
+                  <i-feather name="plus"></i-feather>
+                </button>
+              </div>
+
+              <!-- Item Total -->
+              <div class="item-total">
+                {{ (item.price * item.quantity) | currency:'COP':'$':'1.0-0' }}
+              </div>
+
+              <!-- Remove Button -->
+              <button class="remove-btn" (click)="removeFromCart(i)">
+                <i-feather name="x"></i-feather>
+              </button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Payment Method -->
+    @if (cart().length > 0) {
+      <div class="payment-section">
+        <label class="payment-label">
+          <i-feather name="credit-card"></i-feather>
+          Método de Pago
+        </label>
+        <div class="payment-methods">
+          <button 
+            class="payment-btn" 
+            [class.active]="paymentMethod() === 'CASH'"
+            (click)="paymentMethod.set('CASH')"
+          >
+            <i-feather name="dollar-sign"></i-feather>
+            <span>Efectivo</span>
+          </button>
+          <button 
+            class="payment-btn" 
+            [class.active]="paymentMethod() === 'TRANSFER'"
+            (click)="paymentMethod.set('TRANSFER')"
+          >
+            <i-feather name="smartphone"></i-feather>
+            <span>Transferencia</span>
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- Cart Footer -->
+    <div class="cart-footer">
+      <!-- Summary -->
+      <div class="summary">
+        <div class="summary-row">
+          <span>Items:</span>
+          <span class="value">{{ getTotalItems() }}</span>
+        </div>
+        <div class="summary-row subtotal">
+          <span>Subtotal:</span>
+          <span class="value">{{ subtotal() | currency:'COP':'$':'1.0-0' }}</span>
+        </div>
+        <div class="summary-row total">
+          <span>TOTAL:</span>
+          <span class="value">{{ subtotal() | currency:'COP':'$':'1.0-0' }}</span>
+        </div>
+      </div>
+
+      <!-- Checkout Button -->
+      <button 
+        class="checkout-btn" 
+        (click)="processSale()" 
+        [disabled]="cart().length === 0"
+      >
+        <i-feather name="check-circle"></i-feather>
+        <span>Procesar Venta</span>
+        <kbd>F10</kbd>
+      </button>
+    </div>
+
+  </aside>
+
+</div>

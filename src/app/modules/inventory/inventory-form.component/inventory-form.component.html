@@ -1,0 +1,197 @@
+<div class="inventory-container">
+  
+  <!-- Header -->
+  <div class="inventory-header">
+    <div class="header-content">
+      <div class="title-section">
+        <div class="icon-wrapper">
+          <i-feather name="package"></i-feather>
+        </div>
+        <div>
+          <h1>Catálogo de Productos</h1>
+          <p class="subtitle">Gestión global de inventario</p>
+        </div>
+      </div>
+      <button class="btn-new-product" (click)="showModal.set(true)">
+        <i-feather name="plus-circle"></i-feather>
+        <span>Nuevo Producto</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Filters Card -->
+  <div class="filters-section">
+    <div class="search-box">
+      <i-feather name="search"></i-feather>
+      <input 
+        type="text" 
+        placeholder="Buscar por nombre o SKU..." 
+        [ngModel]="searchTerm()" 
+        (ngModelChange)="searchTerm.set($event)"
+      >
+      @if (searchTerm()) {
+        <button class="clear-search" (click)="searchTerm.set('')">
+          <i-feather name="x"></i-feather>
+        </button>
+      }
+    </div>
+
+    <div class="filter-group">
+      <div class="category-filter">
+        <i-feather name="filter"></i-feather>
+        <select [ngModel]="selectedCategory()" (ngModelChange)="selectedCategory.set($event)">
+          @for (cat of categories(); track cat) {
+            <option [value]="cat">{{ cat }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="results-count">
+        <i-feather name="list"></i-feather>
+        <span>{{ filteredProducts().length }} productos</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Products Table -->
+  <div class="table-card">
+    @if (isLoading()) {
+      <div class="loading-state">
+        <div class="spinner-large"></div>
+        <p>Cargando productos...</p>
+      </div>
+    } @else {
+      <div class="table-wrapper">
+        <table class="products-table">
+          <thead>
+            <tr>
+              <th>
+                <div class="th-content">
+                  <i-feather name="hash"></i-feather>
+                  <span>SKU</span>
+                </div>
+              </th>
+              <th>
+                <div class="th-content">
+                  <i-feather name="package"></i-feather>
+                  <span>Producto</span>
+                </div>
+              </th>
+              <th>
+                <div class="th-content">
+                  <i-feather name="tag"></i-feather>
+                  <span>Categoría</span>
+                </div>
+              </th>
+              <th>
+                <div class="th-content">
+                  <i-feather name="dollar-sign"></i-feather>
+                  <span>Precio</span>
+                </div>
+              </th>
+              <th>
+                <div class="th-content">
+                  <i-feather name="toggle-right"></i-feather>
+                  <span>Estado</span>
+                </div>
+              </th>
+              <th class="actions-column">
+                <div class="th-content">
+                  <i-feather name="settings"></i-feather>
+                  <span>Acciones</span>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (product of filteredProducts(); track product._id) {
+              <tr class="product-row">
+                <td>
+                  <span class="sku-badge">{{ product.sku }}</span>
+                </td>
+                <td>
+                  <div class="product-cell">
+                    <div class="product-icon">
+                      <i-feather name="box"></i-feather>
+                    </div>
+                    <div class="product-info">
+                      <span class="product-name">{{ product.name }}</span>
+                      @if (product.description) {
+                        <span class="product-desc">{{ product.description }}</span>
+                      }
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="category-badge" [attr.data-category]="product.category || 'General'">
+                    {{ product.category || 'General' }}
+                  </span>
+                </td>
+                <td>
+                  <span class="price">{{ product.price | currency:'COP':'$':'1.0-0' }}</span>
+                </td>
+                <td>
+                  <span class="status-badge" [class.active]="product.isActive !== false">
+                    @if (product.isActive !== false) {
+                      <i-feather name="check-circle"></i-feather>
+                      <span>Activo</span>
+                    } @else {
+                      <i-feather name="x-circle"></i-feather>
+                      <span>Inactivo</span>
+                    }
+                  </span>
+                </td>
+                <td class="actions-cell">
+                  <div class="action-buttons">
+                    <button class="btn-action edit" title="Editar producto">
+                      <i-feather name="edit-2"></i-feather>
+                    </button>
+                    <button class="btn-action stock" title="Agregar stock">
+                      <i-feather name="plus-square"></i-feather>
+                    </button>
+                    <button class="btn-action more" title="Más opciones">
+                      <i-feather name="more-vertical"></i-feather>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6" class="empty-state">
+                  <div class="empty-content">
+                    <i-feather name="inbox"></i-feather>
+                    <h4>No se encontraron productos</h4>
+                    <p>No hay productos que coincidan con los filtros seleccionados</p>
+                    @if (searchTerm() || selectedCategory() !== 'Todas') {
+                      <button class="btn-clear-filters" (click)="searchTerm.set(''); selectedCategory.set('Todas')">
+                        <i-feather name="x"></i-feather>
+                        Limpiar filtros
+                      </button>
+                    }
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+
+</div>
+
+<!-- Modal -->
+@if (showModal()) {
+  <div class="modal-overlay" (click)="showModal.set(false)">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+      <button class="modal-close" (click)="showModal.set(false)">
+        <i-feather name="x"></i-feather>
+      </button>
+      
+      <app-inventory-form 
+        (onSaveSuccess)="handleCloseModal()"
+        (onCancelEvent)="showModal.set(false)"
+      ></app-inventory-form>
+    </div>
+  </div>
+}

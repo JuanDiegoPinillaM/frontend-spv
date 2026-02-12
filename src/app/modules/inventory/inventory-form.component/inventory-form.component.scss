@@ -1,0 +1,388 @@
+// ============================================
+// Variables
+// ============================================
+@use "sass:color";
+
+$primary-color: #6366f1;
+$success-color: #10b981;
+$danger-color: #ef4444;
+
+$text-dark: #111827;
+$text-medium: #6b7280;
+$text-light: #9ca3af;
+
+$bg-light: #f9fafb;
+$bg-white: #ffffff;
+$border-color: #e5e7eb;
+
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+$radius-sm: 8px;
+$radius-md: 12px;
+
+// ============================================
+// Form Modal Content
+// ============================================
+
+.form-modal-content {
+  padding: 2.5rem;
+}
+
+// ============================================
+// Modal Header
+// ============================================
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid $border-color;
+
+  .header-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: $radius-md;
+    // CORREGIDO: lighten -> color.adjust
+    background: linear-gradient(135deg, $primary-color, color.adjust($primary-color, $lightness: 10%));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+    flex-shrink: 0;
+
+    i-feather {
+      width: 28px;
+      height: 28px;
+      color: white;
+    }
+  }
+
+  .header-text {
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: $text-dark;
+      margin: 0 0 0.5rem 0;
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      font-size: 0.95rem;
+      color: $text-medium;
+      margin: 0;
+    }
+  }
+}
+
+// ============================================
+// Product Form
+// ============================================
+
+.product-form {
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    &.full-width {
+      grid-column: 1 / -1;
+    }
+
+    &.has-error {
+      label {
+        color: $danger-color;
+
+        i-feather {
+          color: $danger-color;
+        }
+      }
+
+      input,
+      textarea,
+      .select-wrapper {
+        border-color: $danger-color;
+      }
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: $text-dark;
+
+      i-feather {
+        width: 18px;
+        height: 18px;
+        color: $primary-color;
+      }
+
+      .required {
+        color: $danger-color;
+        margin-left: auto;
+      }
+
+      .optional {
+        color: $text-light;
+        font-weight: 400;
+        font-size: 0.85rem;
+        margin-left: auto;
+      }
+    }
+
+    input,
+    textarea {
+      padding: 0.875rem 1rem;
+      border: 2px solid $border-color;
+      border-radius: $radius-sm;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      background: $bg-white;
+
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+      }
+
+      &::placeholder {
+        color: $text-light;
+      }
+
+      &:disabled {
+        background: $bg-light;
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    // Input con prefijo (precio)
+    .input-with-prefix {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      .prefix {
+        position: absolute;
+        left: 1rem;
+        font-weight: 600;
+        color: $text-medium;
+        pointer-events: none;
+      }
+
+      input {
+        padding-left: 2.5rem;
+      }
+    }
+
+    // Select personalizado
+    .select-wrapper {
+      position: relative;
+      border: 2px solid $border-color;
+      border-radius: $radius-sm;
+      background: $bg-white;
+      transition: all 0.2s ease;
+
+      &:focus-within {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+      }
+
+      select {
+        width: 100%;
+        padding: 0.875rem 3rem 0.875rem 1rem;
+        border: none;
+        background: none;
+        font-size: 0.95rem;
+        font-family: inherit;
+        color: $text-dark;
+        cursor: pointer;
+        appearance: none;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      i-feather {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        color: $text-medium;
+        pointer-events: none;
+      }
+    }
+
+    .error-message {
+      font-size: 0.85rem;
+      color: $danger-color;
+      margin-top: -0.25rem;
+      animation: shake 0.3s ease;
+    }
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+// ============================================
+// Form Actions
+// ============================================
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid $border-color;
+
+  button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: $radius-sm;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    i-feather {
+      width: 20px;
+      height: 20px;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+  }
+
+  .btn-cancel {
+    background: $bg-light;
+    color: $text-dark;
+    border: 2px solid $border-color;
+
+    &:hover:not(:disabled) {
+      // CORREGIDO: darken -> color.adjust
+      background: color.adjust($bg-light, $lightness: -3%);
+      border-color: color.adjust($border-color, $lightness: -10%);
+    }
+  }
+
+  .btn-submit {
+    // CORREGIDO: lighten -> color.adjust
+    background: linear-gradient(135deg, $success-color, color.adjust($success-color, $lightness: 8%));
+    color: white;
+    box-shadow: 0 4px 12px rgba($success-color, 0.3);
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba($success-color, 0.4);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    &.loading {
+      pointer-events: none;
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// ============================================
+// Responsive
+// ============================================
+
+@media (max-width: 640px) {
+  .form-modal-content {
+    padding: 1.5rem;
+  }
+
+  .modal-header {
+    margin-bottom: 2rem;
+
+    .header-icon {
+      width: 48px;
+      height: 48px;
+
+      i-feather {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    .header-text {
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      p {
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .product-form {
+    .form-grid {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+
+    button {
+      width: 100%;
+    }
+  }
+}
